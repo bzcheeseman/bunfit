@@ -1,4 +1,4 @@
-# CPPriest
+# Bunfit
 
 This project is dedicated to using C++ for curve fitting, and using the impressive plotting abilities of Matplotlib (from python) to visualize results.  The applicability is mostly for live-type code, where results are required instantly.  This project is under construction, and anything even under the master branch has no guarantee of any kind.  Eventually I will hopefully have something that is robust enough and works well enough with minimal input from the person working on it that I will be able to release it for real.  For now, if you have suggestions please, by all means, let me know how to improve - or make the changes and tell me what they are!
 
