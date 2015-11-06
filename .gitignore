@@ -1,0 +1,8 @@
+#dylibs
+*.dylib
+
+#binary/compiled files
+*.o
+
+#test
+test.cpp
