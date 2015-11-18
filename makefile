@@ -62,10 +62,10 @@ residual=residuals
 ################################commands################################
 (all): $(output).o
 
-$(output).o: $(target).cpp lib$(chisqlib).dylib lib$(gdlib).dylib lib$(ehlib).dylib
-	$(ccomp) $(cflags) $(ll) $(libs) -I $(hf) -I $(eigen) -I $(residual)\
+$(output).o: $(target).cpp lib$(gdlib).dylib lib$(ehlib).dylib
+	$(ccomp) $(cflags) $(ll) $(libs) -I $(hf) -I $(eigen) -I $(residual) -I $(pi)\
 	 -L $(ehlib) -l$(ehlib) -L $(chisqlib) -l$(chisqlib) \
-	 -L $(gdlib) -l$(gdlib) -o $(output).o $(target).cpp
+	 -L $(gdlib) -l$(gdlib) -o $(output).o $(target).cpp $(mpl)
 
 lib$(chisqlib).dylib: $(chisq).cpp
 	$(ccomp) -fopenmp $(cflags) $(dyflags) -I $(hf) -I $(eigen) -I $(residual)\

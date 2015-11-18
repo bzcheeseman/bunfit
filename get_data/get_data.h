@@ -10,6 +10,7 @@
 
 // This assumes that you're operating in the directory with the dataset inside it.
 
-std::tuple<std::vector<double>, std::vector<double>> get_data(std::string, int, std::tuple<double, double>);
+std::tuple<std::vector<double>, std::vector<double>, int> 
+	get_data(std::string, int, const double [2]);
 
 #endif // GET_DATA_H
