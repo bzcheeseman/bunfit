@@ -57,8 +57,8 @@ std::tuple<std::vector<double>, std::vector<double>, int> get_data(
 		return make_tuple(data, yerr, size);
 	}
 	else{
-		throw 1;
-		vector<double> end (-1);
+		vector<double> end (1);
+		end[0] = -1.0;
 		return make_tuple(end, end, -1);
 	}
 }

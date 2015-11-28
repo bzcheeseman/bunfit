@@ -7,7 +7,7 @@
 #include <omp.h>
 
 #include "math.h"
-#include "../residuals/residuals.h"
+#include "bunfit/residuals/residuals.h"
 
 #define pi 3.14159265358979323846264338327950288419716939937510
 
