@@ -6,7 +6,7 @@ double est_error(double value)
 }
 
 std::tuple<std::vector<double>, std::vector<double>, int> get_data(
-	std::string dataset, int size, const double range[2])
+	std::string dataset, const double range[2])
 {
 	using namespace std;
 
@@ -36,22 +36,21 @@ std::tuple<std::vector<double>, std::vector<double>, int> get_data(
 
 			if (x >= beginning and x <= ending and ranged == 1){
 				xpt.push_back(x); ypt.push_back(y); yerr.push_back(yr);
-				size++;
 			}
 
 			else if (ranged == 0){
 				xpt.push_back(x); ypt.push_back(y); yerr.push_back(yr);
-				size++;
 			}
 			else{;}	
 		}
 		incoming.close();
-		int i, j;
+
+		size = xpt.size();
 
 		vector<double> data (2*size);
-		for (i = j = 0; i < 2*size; i+=2, j++){
-			data[i] = xpt[j];
-			data[i+1] = ypt[j];
+		for (int i = 0; i < size; i++){
+			data[2*i] = xpt[i];
+			data[2*i+1] = ypt[i];
 		}
 
 		return make_tuple(data, yerr, size);
