@@ -5,9 +5,12 @@
 #include <functional>
 #include <gflags/gflags.h>
 
+#include <omp.h>
+
 #include "get_data/get_data.h"
-#include "chi_squared/chi_squared.h"
 #include "residuals/residuals.h"
+
+#define pi 3.14159265358979323846264338327950288419716939937510
 
 class solverSetup
 {
@@ -33,5 +36,7 @@ public:
 	void plotData();
 	void plotFit();
 
-	/* data */
+	std::tuple<const double, const double> chisq(std::string);
 };
+
+
