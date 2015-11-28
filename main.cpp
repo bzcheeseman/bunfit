@@ -24,7 +24,13 @@ solverSetup::~solverSetup(){
 }
 
 void solverSetup::plotData(){
-	;
+	vector<double> xdata (solverSetup::dataPackage.numPoints);
+	vector<double> ydata (solverSetup::dataPackage.numPoints);
+
+	for (int i = 0; i < solverSetup::dataPackage.numPoints; i++){
+		xdata[i] = solverSetup::dataPackage.data[2*i];
+		ydata[i] = solverSetup::dataPackage.data[2*i+1];
+	}
 }
 
 void solverSetup::plotFit(){
