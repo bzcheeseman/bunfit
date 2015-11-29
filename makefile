@@ -3,9 +3,6 @@
 #omp compiler
 ccomp=clang-omp++
 
-#normal compiler
-cc=clang++
-
 #homebrew installed headers
 hf=/usr/local/include
 
@@ -22,7 +19,7 @@ ll=-L /usr/local/lib
 libs=-lglog -lgflags -lceres
 
 #target file
-target=test
+target=main
 
 #######python linking only#######
 
@@ -35,52 +32,25 @@ pi=/usr/include/python2.7
 #generic options
 cflags=-std=c++11
 
-######dylibs only#######
-dyflags=-dynamiclib -current_version 0.1
-
 #chi squared dependency
 chisq=chi_squared/chi_squared
-
-#lib name
-chisqlib=chi_squared
 
 #get_data dependency
 gd=get_data/get_data
 
-#lib name
-gdlib=get_data
-
-#error handling
-eh=error_handling/error_handling
-
-#lib name
-ehlib=error_handling
 
 ######residual include#####
-residual=residuals
+residual=$(HOME)/desktop/cpp/bunfit
 
 ################################commands################################
 (all): $(output).o
 
-$(output).o: $(target).cpp lib$(gdlib).dylib lib$(ehlib).dylib
-	$(ccomp) $(cflags) $(ll) $(libs) -I $(hf) -I $(eigen) -I $(residual) -I $(pi)\
-	 -L $(ehlib) -l$(ehlib) -L $(chisqlib) -l$(chisqlib) \
-	 -L $(gdlib) -l$(gdlib) -o $(output).o $(target).cpp $(mpl)
-
-lib$(chisqlib).dylib: $(chisq).cpp
-	$(ccomp) -fopenmp $(cflags) $(dyflags) -I $(hf) -I $(eigen) -I $(residual)\
-	 -o chi_squared/lib$(chisqlib).dylib $(chisq).cpp
-
-lib$(gdlib).dylib: $(gd).cpp
-	$(cc) $(cflags) $(dyflags) -I $(hf) -I $(eigen) -I $(residual)\
-	 -o get_data/lib$(gdlib).dylib $(gd).cpp
-
-lib$(ehlib).dylib: $(eh).cpp
-	$(cc) $(cflags) $(dyflags) -o error_handling/lib$(ehlib).dylib $(eh).cpp
+$(output).o: $(target).cpp $(gd).cpp
+	$(ccomp) $(target).cpp $(gd).cpp -o $(output).o -I $(eigen) -I $(hf)\
+	 -I $(residual) $(cflags)
 
 clean:
-	rm $(target) chi_squared/$(chisqlib) get_data/$(gdlib) \
-	error_handling/$(ehlib)
+	rm $(target).0
 
 
 
