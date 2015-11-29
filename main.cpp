@@ -26,12 +26,32 @@ solverSetup::~solverSetup(){
 void solverSetup::plotData(){
 	vector<double> xdata (solverSetup::dataPackage.numPoints);
 	vector<double> ydata (solverSetup::dataPackage.numPoints);
+	vector<double> yerr (solverSetup::dataPackage.error);
 
 	for (int i = 0; i < solverSetup::dataPackage.numPoints; i++){
 		xdata[i] = solverSetup::dataPackage.data[2*i];
 		ydata[i] = solverSetup::dataPackage.data[2*i+1];
 	}
+
+	Py_Initialize();
+		using namespace boost::python;
+
+		class_<std::vector<double> >("PyVec")
+        	.def(vector_indexing_suite< vector<double> >());
+
+		try{
+        object plt = import("matplotlib.pyplot");
+        plt.attr("figure")();
+        plt.attr("errorbar")(xdata,ydata,yerr,0,'o');
+        plt.attr("show")();
+      	}
+      	catch (error_already_set){
+        	PyErr_Print();
+      	}
+      
+    Py_Finalize();
 }
+
 
 void solverSetup::plotFit(){
 	;
@@ -110,6 +130,8 @@ int main(){
 	//cout << solver.dataPackage.parms.size() << endl;
 
 	cout << get<0>(solver.chisq("lin_residual")) << endl;
+
+	solver.plotData();
 
 	cout << "it works!" << endl;
 

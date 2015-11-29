@@ -5,6 +5,11 @@
 #include <functional>
 #include <gflags/gflags.h>
 
+#include <boost/python.hpp>
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+
+#include <utility>
+
 #include <omp.h>
 
 #include "get_data/get_data.h"

@@ -18,3 +18,7 @@ If a program returns an error code, here is what they mean:
 9 = Use different function, requested operation not within function parameters
 10 = Check function and guesses, make sure they align
 11 = Item already exists in an immutable file, please choose a different name
+
+Notes on get_data functionality:
+
+You will have to pass the entire path to the data you want to use.  Also, I haven't implemented row skipping, and the program has issues with words in your data files.  If it's not working, try that first.

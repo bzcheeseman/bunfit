@@ -47,7 +47,7 @@ residual=$(HOME)/desktop/cpp/bunfit
 
 $(output).o: $(target).cpp $(gd).cpp
 	$(ccomp) $(target).cpp $(gd).cpp -o $(output).o -I $(eigen) -I $(hf)\
-	 -I $(residual) $(cflags)
+	 -I $(residual) $(cflags) -I $(pi) $(mpl)
 
 clean:
 	rm $(target).0
