@@ -7,16 +7,27 @@ This is a pet project, and so there are no guarantees anything will work, or tha
 If a program returns an error code, here is what they mean:
 
 0 = Success
+
 1 = File error - Did not open/couldn’t read or write
+
 2 = Problem with solution of system
+
 3 = Unforseen problem - contact owner/maintainer for debugging
+
 4 = Improper command line arguments, need more or the ones entered are invalid
+
 5 = Need file I/O arguments
+
 6 = Unknown arguments passed to function
+
 7 = Data error - check data output/input to function type
+
 8 = Not implemented (Yet……) - implement it!
+
 9 = Use different function, requested operation not within function parameters
+
 10 = Check function and guesses, make sure they align
+
 11 = Item already exists in an immutable file, please choose a different name
 
 Notes on get_data functionality:
