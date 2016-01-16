@@ -33,3 +33,17 @@ If a program returns an error code, here is what they mean:
 Notes on get_data functionality:
 
 You will have to pass the entire path to the data you want to use.  Also, I haven't implemented row skipping, and the program has issues with words in your data files.  If it's not working, try that first.
+
+TO DO:
+
+-Implement data plotting functions that are robust to lacking errors or a fit without having to modify source code
+
+-Questioning whether to use cmake or the GNU configure tools
+
+-Build GUI
+
+-Rework structure to allow residual definition outside of library, questioning whether residuals.h structure is worthwhile
+
+-Rename main.cpp OR make it editable if necessary by end user
+
+-Need to find some way to allow end user to set up their own residuals, template it into current code or just have end user write the code themselves?
