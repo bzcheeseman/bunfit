@@ -35,7 +35,7 @@
 # You can also deploy your own backend outside of matplotlib by
 # referring to the module name (which must be in the PYTHONPATH) as
 # 'module://my_backend'.
-backend      : qt4agg
+backend      : qt5agg
 
 # If you are using the Qt4Agg backend, you can choose here
 # to use the PyQt4 bindings or the newer PySide bindings to
@@ -357,9 +357,9 @@ backend      : qt4agg
 #image.lut    : 256               # the size of the colormap lookup table
 #image.origin : upper             # lower | upper
 #image.resample  : False
-#image.composite_image : True     # When True, all the images on a set of axes are 
-                                  # combined into a single composite image before 
-                                  # saving a figure as a vector graphics file, 
+#image.composite_image : True     # When True, all the images on a set of axes are
+                                  # combined into a single composite image before
+                                  # saving a figure as a vector graphics file,
                                   # such as a PDF.
 
 ### CONTOUR PLOTS
