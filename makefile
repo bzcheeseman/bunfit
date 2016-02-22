@@ -1,7 +1,7 @@
 ########### CHANGE THESE FOR YOUR SYSTEM #########################
 
 #omp compiler
-ccomp=clang-omp++
+ccomp=g++-5
 
 #homebrew installed headers
 hf=/usr/local/include
@@ -46,20 +46,8 @@ residual=$(HOME)/desktop/cpp/bunfit
 (all): $(output).o
 
 $(output).o: $(target).cpp $(gd).cpp
-	$(ccomp) $(target).cpp $(gd).cpp -o $(output).o -I $(eigen) -I $(hf)\
+	$(ccomp) -fopenmp $(target).cpp $(gd).cpp -o $(output).o -I $(eigen) -I $(hf)\
 	 -I $(residual) $(cflags) -I $(pi) $(mpl)
 
 clean:
-	rm $(target).0
-
-
-
-
-
-
-
-
-
-
-
-
+	rm test.o

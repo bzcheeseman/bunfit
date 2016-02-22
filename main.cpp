@@ -48,7 +48,7 @@ void solverSetup::plotData(){
       	catch (error_already_set){
         	PyErr_Print();
       	}
-      
+
     Py_Finalize();
 }
 
@@ -58,7 +58,7 @@ void solverSetup::plotFit(){
 }
 
 
-tuple<const double, const double> 
+tuple<const double, const double>
 	solverSetup::chisq(string residual_type)
 {
 
@@ -89,7 +89,7 @@ tuple<const double, const double>
 			return make_tuple(chisq, red_chisq);
 		}
 		else{
-			return 6;
+			return make_tuple(6, 6);
 		}
 	}
 	if (residual_type.compare("lin_residual") == 0){
@@ -118,10 +118,10 @@ tuple<const double, const double>
 			return make_tuple(chisq, red_chisq);
 		}
 		else{
-			return 6;
+			return make_tuple(6, 6);
 		}
 	}
-	return 9;
+	return make_tuple(9, 9);
 }
 
 int main(){
@@ -129,7 +129,7 @@ int main(){
 
 	//cout << solver.dataPackage.parms.size() << endl;
 
-	cout << get<0>(solver.chisq("lin_residual")) << endl;
+	// cout << get<0>(solver.chisq("lin_residual")) << endl;
 
 	solver.plotData();
 
