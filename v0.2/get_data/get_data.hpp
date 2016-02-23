@@ -24,11 +24,11 @@ struct dataSet {
   std::vector<_data> estError(char vect){
     if (char vect == 'x'){
       for (auto iterator = v.begin(); iterator != v.end(); iterator++){
-
+        ;
       }
     }
     else if (char vect == 'y'){
-      
+      ;
     }
   }
 };
