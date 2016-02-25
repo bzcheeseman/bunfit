@@ -7,3 +7,7 @@
 #test
 test.cpp
 test
+test.dSYM/
+
+#unfinished files
+logging.hpp
