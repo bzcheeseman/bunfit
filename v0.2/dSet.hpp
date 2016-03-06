@@ -8,6 +8,16 @@
 
 #include "math.h"
 
+template <typename _point>
+struct point {
+  _point x, y, ye;
+
+  friend std::ostream& operator<<(std::ostream& out, const point<_point> &obj){
+    out << obj.x << ", " << obj.y << " +- " << obj.ye;
+    return out;
+  }
+};
+
 template <typename _data>
 struct dataSet {
   std::string file_name;
@@ -18,23 +28,12 @@ struct dataSet {
 
   std::vector<_data> xdata;
   std::vector<_data> ydata;
-  std::vector<_data> xerr;
   std::vector<_data> yerr;
 
-
-
   std::vector<_data> estError(char vect){
-    if (vect == 'x'){
-      std::vector<_data> v (xdata);
-      for (auto iterator = v.begin(); iterator != v.end(); iterator++){
-        xerr.push_back(sqrt(*iterator));
-      }
-    }
-    else if (vect == 'y'){
-      std::vector<_data> v (ydata);
-      for (auto iterator = v.begin(); iterator != v.end(); iterator++){
-        yerr.push_back(sqrt(*iterator));
-      }
+    std::vector<_data> v (ydata);
+    for (auto iterator = v.begin(); iterator != v.end(); iterator++){
+      yerr.push_back(sqrt(*iterator));
     }
   }
 
@@ -53,7 +52,19 @@ struct dataSet {
     return out;
   }
 
-  //element access through an overloaded operator?
+  point<_data> operator[](const int point_num){
+    point<_data> pt;
+
+    pt.x = xdata[point_num];
+    pt.y = ydata[point_num];
+
+    if (yerr.size() > 0){
+      pt.ye = yerr[point_num];
+    }
+
+    return pt;
+  }
+  
 };
 
 #endif //DSET_HPP

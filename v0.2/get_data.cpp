@@ -12,13 +12,16 @@ bool get_data(dataSet<double> *data)
 		beginning = data->range["begin"];
 		ending = data->range["end"];
 		ranged = 1;
+    LOG(INFO) << "Ranged Data";
 	}
 	else{
 		ranged = 0;
+    LOG(INFO) << "No Range Specified";
 	}
 
 	ifstream incoming (data->file_name);
 	if (incoming.is_open()){
+    LOG(INFO) << "Found/Opened File";
 		vector<double> xpt; vector<double> ypt; vector<double> yerr;
 		int size;
 		while (incoming.good()){
@@ -37,6 +40,7 @@ bool get_data(dataSet<double> *data)
 			}
 			else{;}
 		}
+    LOG(INFO) << "Finished reading the file";
 		incoming.close();
 
 		data->numPoints = xpt.size();
@@ -44,26 +48,29 @@ bool get_data(dataSet<double> *data)
 		data->xdata = xpt;
     data->ydata = ypt;
     data->yerr = yerr;
+
+    LOG(INFO) << "Successfully filled struct";
+
 		return true;
 	}
 	else{
 		data->numPoints = -1;
+    LOG(FATAL) << "Unable to find/open file";
+
 		return false;
 	}
 }
 
-int main(int argc, char const *argv[]) {
-  std::map<std::string, double> range;
-	range["begin"] = 0.0;
-	range["end"] = 0.0;
-
-	dataSet<double> data;
-	data.file_name = "/Users/Aman/code/cpp/ceres/data/selected_data.tsv";
-	data.range = range;
-  get_data(&data);
-	std::cout << data.numPoints << std::endl;
-	//std::cout << "hi" << std::endl;
-	std::cout << data << std::endl;
-	std::vector<double> v = data.ceresData();
-  return 0;
-}
+// int main(int argc, char const *argv[]) {
+//   std::map<std::string, double> range;
+// 	range["begin"] = 0.0;
+// 	range["end"] = 0.0;
+//
+// 	dataSet<double> data;
+// 	data.file_name = "/Users/Aman/code/cpp/ceres/data/selected_data.tsv";
+// 	data.range = range;
+//   get_data(&data);
+// 	std::cout << data << std::endl;
+//   std::cout<< data[45] << std::endl;
+//   return 0;
+// }
