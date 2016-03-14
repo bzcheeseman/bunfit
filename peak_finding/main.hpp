@@ -171,24 +171,24 @@ void findPeaks(dataSet<_data> *data, int window){
     }
   }
   // start checking the found peaks
-  for (auto iter = data->peak_locations.begin(); iter <= data->peak_locations.end(); iter++){
+  for (auto iter = data->peak_locations.begin(); iter != data->peak_locations.end(); iter++){
 
     std::vector<_data> frame (data->ydata.begin()+(*iter)-window/2, data->ydata.begin()+(*iter)+window/2);
+
+    std::vector<_data> frame_deriv (data->first_deriv.begin()+(*iter)-window/2, data->first_deriv.begin()+(*iter)+window/2);
+
+    std::vector<_data> frame_deriv_abs = absolute_value<_data>(frame_deriv);
+
+    auto deriv_check = std::min_element(frame_deriv_abs.begin(), frame_deriv_abs.end());
 
     //check to see if we're finding the beginning or end of a frame
     auto frame_check = std::max_element(frame.begin(), frame.end());
     if (frame_check == frame.begin() or frame_check == frame.end()){
       data->peak_locations.erase(iter);
     }
-
-    std::vector<_data> frame_deriv (data->first_deriv.begin()+(*iter)-window/2, data->first_deriv.begin()+(*iter)+window/2);
-
-    std::vector<_data> frame_deriv_abs = absolute_value<_data>(frame_deriv);
-
-    // check to see if the first derivative passes through zero
-    auto deriv_check = std::min_element(frame_deriv_abs.begin(), frame_deriv_abs.end());
-    if (*deriv_check > 1.0/(static_cast<double>(data->numPoints))){
-      data->peak_locations.erase(iter); //seg faults here for some reason
+    // check if first derivative passes thru zero
+    else if (*deriv_check > 1.0/(static_cast<double>(data->numPoints))){
+      data->peak_locations.erase(iter); // messes up here, won't delete fake peaks for some reason
     }
   }
 }
