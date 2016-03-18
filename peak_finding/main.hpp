@@ -73,6 +73,15 @@ std::vector<double> linspace(_data start_in, _data end_in, int num_in){
   return linspaced;
 }
 
+template<typename T>
+std::vector<T> slice(std::vector<T> vector, int begin, int end){
+  std::vector<T> ret;
+  for (int i = begin; i <= end; i++){
+    ret.push_back(vector[i]);
+  }
+  return ret;
+}
+
 template<typename _data>
 std::vector<_data> absolute_value(std::vector<_data> v){
   std::vector<_data> out;
@@ -149,46 +158,51 @@ void findDerivs(dataSet<_data> *data){
   }
 }
 
-template<typename _data>
-void findPeaks(dataSet<_data> *data, int window){
-  for (int i = 0; i < data->numPoints; i+=window){ //check if second derivative is below zero
-    bool below_zero = true;
-    for (int j = 0; j < window; j++){
-      if (data->second_deriv[i+j] < 0){
-        if (below_zero == false){
-          continue;
-        }
-        else{
-          below_zero = true;
-        }
-      }
-      else{
-        below_zero = false;
-      }
+template<typename T>
+int bin_search(std::vector<T> vect, T target){
+  int n = vect.size();
+  if (n == 0){
+    return -1;
+  }
+  else{
+    int middle = n/2;
+
+    if (target == vect[middle]){
+      return middle;
     }
-    if (below_zero){
-      data->peak_locations.push_back(i);
+    else if (target < vect[middle]){
+      std::vector<T> new_vect = slice(vect, 0, middle);
+      return bin_search(new_vect, target);
+    }
+    else if (target > vect[middle]){
+      std::vector<T> new_vect = slice(vect, middle, n);
+      return bin_search(new_vect, target);
+    }
+    else{
+      return -1;
     }
   }
-  // start checking the found peaks
-  for (auto iter = data->peak_locations.begin(); iter != data->peak_locations.end(); iter++){
+}
 
-    std::vector<_data> frame (data->ydata.begin()+(*iter)-window/2, data->ydata.begin()+(*iter)+window/2);
+template<typename _data>
+void findPeaks(dataSet<_data> *data, int window){
+  int n = data->numPoints;
+  for (int i = 0; i < n/window; i++){
+    std::vector<_data> v = slice(data->ydata, i*window, (i+1)*window);
+    auto max = std::max_element(v.begin(), v.end());
+    int maximum = bin_search(v, *max);
 
-    std::vector<_data> frame_deriv (data->first_deriv.begin()+(*iter)-window/2, data->first_deriv.begin()+(*iter)+window/2);
+    std::vector<_data> deriv = slice(data->first_deriv, i*window, (i+1)*window);
 
-    std::vector<_data> frame_deriv_abs = absolute_value<_data>(frame_deriv);
+    //std::cout << deriv[maximum] << std::endl;
+    std::cout << i*window + maximum << std::endl;
 
-    auto deriv_check = std::min_element(frame_deriv_abs.begin(), frame_deriv_abs.end());
-
-    //check to see if we're finding the beginning or end of a frame
-    auto frame_check = std::max_element(frame.begin(), frame.end());
-    if (frame_check == frame.begin() or frame_check == frame.end()){
-      data->peak_locations.erase(iter);
-    }
-    // check if first derivative passes thru zero
-    else if (*deriv_check > 1.0/(static_cast<double>(data->numPoints))){
-      data->peak_locations.erase(iter); // messes up here, won't delete fake peaks for some reason
-    }
+    // if (deriv[maximum] < 1/n){
+    //   data->peak_locations.push_back(maximum);
+    //   std::cout << "added" << std::endl;
+    // }
+    // else{
+    //   ;
+    // }
   }
 }

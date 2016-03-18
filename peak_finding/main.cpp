@@ -8,10 +8,8 @@ int main(int argc, char const *argv[]) {
   makeSet(&data, 1.0, 3.0, 1000);
   data.numPoints = 1000;
 
-  cout << data[500] << endl;
-
   findDerivs<double>(&data);
-  findPeaks<double>(&data, 22);
+  findPeaks<double>(&data, 3);
 
   // for (int i = 0; i < data.second_deriv.size(); i++){
   //   cout << data.second_deriv[i] << endl;
