@@ -23,7 +23,6 @@ std::vector<T> linspace(T start_in, T end_in, int num_in){
 
   std::vector<T> linspaced(num - 1);
 
-  #pragma omp for
   for (int i = 0; i < num; ++i){
     linspaced[i] = start + delta * i;
   }
@@ -44,7 +43,6 @@ template<typename T>
 std::vector<T> absolute_value(std::vector<T> v){
   int n = v.size();
   std::vector<T> out (n);
-  #pragma omp for
   for (int i = 0; i < n; i++){
     out[i] = std::abs(v[i]);
   }
