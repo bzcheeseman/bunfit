@@ -9,5 +9,7 @@ test.cpp
 test
 test.dSYM/
 
+#logs
+logs/
+
 #unfinished files
-logging.hpp
