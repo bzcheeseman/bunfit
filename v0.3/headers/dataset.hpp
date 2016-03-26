@@ -10,7 +10,7 @@
 #include <gflags/gflags.h>
 
 #include "math.h"
-#include "residuals.hpp"
+#include "residuals_new.hpp"
 #include "vector_ops.hpp"
 
 namespace dataset{
@@ -56,7 +56,7 @@ namespace dataset{
 
 
   template<typename T>
-  void makeSet(dataSet<T> *data, std::initializer_list<const T *> params){ // add logging statements
+  void makeSet(dataSet<T> *data, std::initializer_list<T *> params){
     using namespace vector_ops;
 
     if (data->range["begin"] == data->range["end"] or data->numPoints == 0){
@@ -66,15 +66,21 @@ namespace dataset{
       data->xdata = linspace(data->range["begin"], data->range["end"], data->numPoints);
       data->ydata = constant_vector(0.0, data->numPoints);
 
+      std::vector<T*> parms = params;
+      int n = parms.size();
+      T* p [n];
+      for (int i = 0; i < n; i++){
+        p[i] = parms[i];
+      }
+
       #pragma omp parallel for
       for (int i = 0; i < data->numPoints; i++){
         double x = data->xdata[i];
         double y = data->ydata[i];
         double resid = 0.0;
 
-        residual<double> res (x, y);
-        res.residual_type = data->residual_type;
-        res(params, &resid);
+        quadratic quad (x, y);
+        quad(p[0], p[1], p[2], &resid);
 
         data->ydata[i] = -resid;
       }

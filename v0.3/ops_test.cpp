@@ -2,6 +2,7 @@
 #include "headers/dataset.hpp"
 #include "headers/plotting.hpp"
 #include <ceres/ceres.h>
+#include "headers/residuals_new.hpp"
 
 using namespace std;
 using namespace vector_ops;
@@ -18,22 +19,27 @@ int main(int argc, char *argv[]) {
   data.range["begin"] = -5.0;
   data.range["end"] = 5.0;
 
-  double A = 8.0;
-  double B = 3.0;
+  double A = 1.0;
+  double B = 0.0;
   double C = 0.0;
   double D = 1.0;
   double E = 0.0;
 
-  dataset::makeSet(&data, {&A, &B, &C, &D, &E});
+  dataset::makeSet(&data, {&A, &B, &C});
   plot::plotData(&data);
+
+  double Ap = 3.45;
 
   Problem problem;
 
   for (int i = 0; i < 100; i++){
-    residual<double> *resid = new residual<double> (data.xdata[i], data.ydata[i]);
-    resid->residual_type = data.residual_type;
-    CostFunction *cost = new AutoDiffCostFunction<residual<double>, 1, 1, 1, 1, 1, 1>();
-    problem.AddResidualBlock(cost, NULL, &A, &B, &C); //this no worky and idk why
+    double x = data.xdata[i];
+    double y = data.ydata[i];
+    double r = 0.0;
+
+    CostFunction* cost = residual<double>::Create(x, y, "quadratic");
+    problem.AddResidualBlock(cost, NULL, &Ap, &B, &C);
+
   }
 
   Solver::Options options;
